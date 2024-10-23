@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>4 Statistical evaluation | GEO-77 Introduction to R</title>
+  <meta name="description" content="An introduction to R for the GEO-77 course, 2023 - 2024 Wintersemmester" />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="4 Statistical evaluation | GEO-77 Introduction to R" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="/images/cover.png" />
+  <meta property="og:description" content="An introduction to R for the GEO-77 course, 2023 - 2024 Wintersemmester" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="4 Statistical evaluation | GEO-77 Introduction to R" />
+  
+  <meta name="twitter:description" content="An introduction to R for the GEO-77 course, 2023 - 2024 Wintersemmester" />
+  <meta name="twitter:image" content="/images/cover.png" />
+
+<meta name="author" content="Mathias Bellat" />
+
+
+<meta name="date" content="2024-10-23" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="figures-and-graphics-basics.html"/>
+<link rel="next" href="spatial-modeling.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link href="libs/vembedr-0.1.5/css/vembedr.css" rel="stylesheet" />
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.2.2/leaflet.js"></script>
+<script src="libs/leaflet-providers-2.0.0/leaflet-providers_2.0.0.js"></script>
+<script src="libs/leaflet-providers-plugin-2.2.2/leaflet-providers-plugin.js"></script>
+<link href="libs/HomeButton-0.0.1/home-button.css" rel="stylesheet" />
+<script src="libs/HomeButton-0.0.1/home-button.js"></script>
+<script src="libs/HomeButton-0.0.1/easy-button-src.min.js"></script>
+<script src="libs/clipboard-0.0.1/setClipboardText.js"></script>
+<link href="libs/mapviewCSS-0.0.1/mapview-popup.css" rel="stylesheet" />
+<link href="libs/mapviewCSS-0.0.1/mapview.css" rel="stylesheet" />
+<script src="libs/DEM$DEM_GLO30_41bd65-1/data_stars_DEMDEM_GLO30af19d3.txt"></script>
+<script src="libs/joda-0.0.1/joda.js"></script>
+<script src="libs/joda-0.0.1/addImageQuery-bindings.js"></script>
+<script src="libs/DEM_crop$DEM_GLO30_a3c1e5-1/data_stars_DEM_cropDEM_GLO308d5acb.txt"></script>
+<script src="libs/DEM_mask$DEM_GLO30_27485f-1/data_stars_DEM_maskDEM_GLO30f0dec4.txt"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="r-introduction-course.html"><a href="r-introduction-course.html"><i class="fa fa-check"></i><b>1</b> R Introduction Course</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="r-introduction-course.html"><a href="r-introduction-course.html#general-introduction"><i class="fa fa-check"></i><b>1.1</b> General introduction</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="r-introduction-course.html"><a href="r-introduction-course.html#short-history-and-philosophy-of-r"><i class="fa fa-check"></i><b>1.1.1</b> Short history and philosophy of R</a></li>
+<li class="chapter" data-level="1.1.2" data-path="r-introduction-course.html"><a href="r-introduction-course.html#why-r"><i class="fa fa-check"></i><b>1.1.2</b> Why R?</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="r-introduction-course.html"><a href="r-introduction-course.html#resources"><i class="fa fa-check"></i><b>1.2</b> Resources</a></li>
+<li class="chapter" data-level="1.3" data-path="r-introduction-course.html"><a href="r-introduction-course.html#installing-r-and-dependencies"><i class="fa fa-check"></i><b>1.3</b> Installing R and dependencies</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="r-introduction-course.html"><a href="r-introduction-course.html#r-and-rstudio"><i class="fa fa-check"></i><b>1.3.1</b> R and Rstudio</a></li>
+<li class="chapter" data-level="1.3.2" data-path="r-introduction-course.html"><a href="r-introduction-course.html#r-packages"><i class="fa fa-check"></i><b>1.3.2</b> R Packages</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="r-introduction-course.html"><a href="r-introduction-course.html#first-overview-of-r"><i class="fa fa-check"></i><b>1.4</b> First overview of R</a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path="r-introduction-course.html"><a href="r-introduction-course.html#basic-commands"><i class="fa fa-check"></i><b>1.4.1</b> Basic commands</a></li>
+<li class="chapter" data-level="1.4.2" data-path="r-introduction-course.html"><a href="r-introduction-course.html#setting-variables"><i class="fa fa-check"></i><b>1.4.2</b> Setting variables</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="r-introduction-course.html"><a href="r-introduction-course.html#REnvironment"><i class="fa fa-check"></i><b>1.5</b> RStudio Environment</a>
+<ul>
+<li class="chapter" data-level="1.5.1" data-path="r-introduction-course.html"><a href="r-introduction-course.html#project"><i class="fa fa-check"></i><b>1.5.1</b> Project</a></li>
+<li class="chapter" data-level="1.5.2" data-path="r-introduction-course.html"><a href="r-introduction-course.html#saving-the-data"><i class="fa fa-check"></i><b>1.5.2</b> Saving the data</a></li>
+</ul></li>
+<li class="chapter" data-level="1.6" data-path="r-introduction-course.html"><a href="r-introduction-course.html#exercices"><i class="fa fa-check"></i><b>1.6</b> Exercices</a></li>
+<li class="chapter" data-level="1.7" data-path="r-introduction-course.html"><a href="r-introduction-course.html#additionnal-ressources"><i class="fa fa-check"></i><b>1.7</b> Additionnal Ressources</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="data-treatment-overview-analyse-and-programming-basics.html"><a href="data-treatment-overview-analyse-and-programming-basics.html"><i class="fa fa-check"></i><b>2</b> Data treatment, overview, analyse and programming basics</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="data-treatment-overview-analyse-and-programming-basics.html"><a href="data-treatment-overview-analyse-and-programming-basics.html#data-management"><i class="fa fa-check"></i><b>2.1</b> Data management</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="data-treatment-overview-analyse-and-programming-basics.html"><a href="data-treatment-overview-analyse-and-programming-basics.html#load-data"><i class="fa fa-check"></i><b>2.1.1</b> Load data</a></li>
+<li class="chapter" data-level="2.1.2" data-path="data-treatment-overview-analyse-and-programming-basics.html"><a href="data-treatment-overview-analyse-and-programming-basics.html#overview-of-the-data"><i class="fa fa-check"></i><b>2.1.2</b> Overview of the data</a></li>
+<li class="chapter" data-level="2.1.3" data-path="data-treatment-overview-analyse-and-programming-basics.html"><a href="data-treatment-overview-analyse-and-programming-basics.html#select-data"><i class="fa fa-check"></i><b>2.1.3</b> Select data</a></li>
+<li class="chapter" data-level="2.1.4" data-path="data-treatment-overview-analyse-and-programming-basics.html"><a href="data-treatment-overview-analyse-and-programming-basics.html#remove-or-add-data"><i class="fa fa-check"></i><b>2.1.4</b> Remove or add data</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="data-treatment-overview-analyse-and-programming-basics.html"><a href="data-treatment-overview-analyse-and-programming-basics.html#vector-operation"><i class="fa fa-check"></i><b>2.2</b> Vector operation</a></li>
+<li class="chapter" data-level="2.3" data-path="data-treatment-overview-analyse-and-programming-basics.html"><a href="data-treatment-overview-analyse-and-programming-basics.html#export-your-data"><i class="fa fa-check"></i><b>2.3</b> Export your data</a></li>
+<li class="chapter" data-level="2.4" data-path="data-treatment-overview-analyse-and-programming-basics.html"><a href="data-treatment-overview-analyse-and-programming-basics.html#exercices-1"><i class="fa fa-check"></i><b>2.4</b> Exercices</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="figures-and-graphics-basics.html"><a href="figures-and-graphics-basics.html"><i class="fa fa-check"></i><b>3</b> Figures and graphics basics</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="figures-and-graphics-basics.html"><a href="figures-and-graphics-basics.html#visualization-with-plots"><i class="fa fa-check"></i><b>3.1</b> Visualization with plots</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="figures-and-graphics-basics.html"><a href="figures-and-graphics-basics.html#boxplots-boxplot"><i class="fa fa-check"></i><b>3.1.1</b> Boxplots <code>boxplot()</code></a></li>
+<li class="chapter" data-level="3.1.2" data-path="figures-and-graphics-basics.html"><a href="figures-and-graphics-basics.html#histograms-hist"><i class="fa fa-check"></i><b>3.1.2</b> Histograms <code>hist()</code></a></li>
+<li class="chapter" data-level="3.1.3" data-path="figures-and-graphics-basics.html"><a href="figures-and-graphics-basics.html#density-plots-plotdensity"><i class="fa fa-check"></i><b>3.1.3</b> Density plots <code>plot(density())</code></a></li>
+<li class="chapter" data-level="3.1.4" data-path="figures-and-graphics-basics.html"><a href="figures-and-graphics-basics.html#scatterplots-plotx-y"><i class="fa fa-check"></i><b>3.1.4</b> Scatterplots <code>plot(x, y)</code></a></li>
+<li class="chapter" data-level="3.1.5" data-path="figures-and-graphics-basics.html"><a href="figures-and-graphics-basics.html#design-options"><i class="fa fa-check"></i><b>3.1.5</b> Design options</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="figures-and-graphics-basics.html"><a href="figures-and-graphics-basics.html#all-roads-lead-to-rome"><i class="fa fa-check"></i><b>3.2</b> All roads lead to <code>R</code>ome</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="figures-and-graphics-basics.html"><a href="figures-and-graphics-basics.html#variant-a"><i class="fa fa-check"></i><b>3.2.1</b> Variant A</a></li>
+<li class="chapter" data-level="3.2.2" data-path="figures-and-graphics-basics.html"><a href="figures-and-graphics-basics.html#variant-b"><i class="fa fa-check"></i><b>3.2.2</b> Variant B</a></li>
+<li class="chapter" data-level="3.2.3" data-path="figures-and-graphics-basics.html"><a href="figures-and-graphics-basics.html#variant-c"><i class="fa fa-check"></i><b>3.2.3</b> Variant C</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="figures-and-graphics-basics.html"><a href="figures-and-graphics-basics.html#multiple-plots-in-one-figure"><i class="fa fa-check"></i><b>3.3</b> Multiple plots in one figure</a></li>
+<li class="chapter" data-level="3.4" data-path="figures-and-graphics-basics.html"><a href="figures-and-graphics-basics.html#plots-file-output"><i class="fa fa-check"></i><b>3.4</b> Plots file output</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="statistical-evaluation.html"><a href="statistical-evaluation.html"><i class="fa fa-check"></i><b>4</b> Statistical evaluation</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="statistical-evaluation.html"><a href="statistical-evaluation.html#descriptive-statistics"><i class="fa fa-check"></i><b>4.1</b> Descriptive statistics</a></li>
+<li class="chapter" data-level="4.2" data-path="statistical-evaluation.html"><a href="statistical-evaluation.html#correlation"><i class="fa fa-check"></i><b>4.2</b> Correlation</a></li>
+<li class="chapter" data-level="4.3" data-path="statistical-evaluation.html"><a href="statistical-evaluation.html#linear-regression-lm"><i class="fa fa-check"></i><b>4.3</b> Linear regression <code>lm()</code></a></li>
+<li class="chapter" data-level="4.4" data-path="statistical-evaluation.html"><a href="statistical-evaluation.html#coefficient-of-determination-with-pearson-correlation-coefficient-cor"><i class="fa fa-check"></i><b>4.4</b> Coefficient of determination with Pearson correlation coefficient <code>cor()</code></a></li>
+<li class="chapter" data-level="4.5" data-path="statistical-evaluation.html"><a href="statistical-evaluation.html#root-mean-squared-error-rmse"><i class="fa fa-check"></i><b>4.5</b> root mean squared error (RMSE)</a></li>
+<li class="chapter" data-level="4.6" data-path="statistical-evaluation.html"><a href="statistical-evaluation.html#function-for-the-root-mean-squared-error-rmse"><i class="fa fa-check"></i><b>4.6</b> Function for the root mean squared error (RMSE)</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="spatial-modeling.html"><a href="spatial-modeling.html"><i class="fa fa-check"></i><b>5</b> Spatial modeling</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="spatial-modeling.html"><a href="spatial-modeling.html#interpolation"><i class="fa fa-check"></i><b>5.1</b> Interpolation</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="spatial-modeling.html"><a href="spatial-modeling.html#idw"><i class="fa fa-check"></i><b>5.1.1</b> IDW</a></li>
+<li class="chapter" data-level="5.1.2" data-path="spatial-modeling.html"><a href="spatial-modeling.html#kriging"><i class="fa fa-check"></i><b>5.1.2</b> Kriging</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="spatial-modeling.html"><a href="spatial-modeling.html#feature-extraction"><i class="fa fa-check"></i><b>5.2</b> Feature extraction</a></li>
+<li class="chapter" data-level="5.3" data-path="spatial-modeling.html"><a href="spatial-modeling.html#work-with-vector-data"><i class="fa fa-check"></i><b>5.3</b> Work with vector data</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="spatial-modeling.html"><a href="spatial-modeling.html#coordinate-systems"><i class="fa fa-check"></i><b>5.3.1</b> Coordinate systems</a></li>
+<li class="chapter" data-level="5.3.2" data-path="spatial-modeling.html"><a href="spatial-modeling.html#resample-crop-and-mask"><i class="fa fa-check"></i><b>5.3.2</b> Resample, crop and mask</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>6</b> References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">GEO-77 Introduction to R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="statistical-evaluation" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">4</span> Statistical evaluation<a href="statistical-evaluation.html#statistical-evaluation" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>When we work with data, is important to describe our data to understand it better. There are a wide variety of statistics used to describe or summarize data in terms of central tendency, shape, position, etc.</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="statistical-evaluation.html#cb45-1" tabindex="-1"></a><span class="co"># file location</span></span>
+<span id="cb45-2"><a href="statistical-evaluation.html#cb45-2" tabindex="-1"></a>file_location <span class="ot">&lt;-</span> <span class="st">&quot;C:/YourFolder/Data/soil_data.txt&quot;</span></span>
+<span id="cb45-3"><a href="statistical-evaluation.html#cb45-3" tabindex="-1"></a>soil_data <span class="ot">&lt;-</span> <span class="fu">read.table</span>(file_location, <span class="at">header =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="statistical-evaluation.html#cb46-1" tabindex="-1"></a><span class="co"># We separate only two properties to make easier to work with them</span></span>
+<span id="cb46-2"><a href="statistical-evaluation.html#cb46-2" tabindex="-1"></a>pH <span class="ot">&lt;-</span> soil_data<span class="sc">$</span>pH</span>
+<span id="cb46-3"><a href="statistical-evaluation.html#cb46-3" tabindex="-1"></a>OC <span class="ot">&lt;-</span> soil_data<span class="sc">$</span>OC</span>
+<span id="cb46-4"><a href="statistical-evaluation.html#cb46-4" tabindex="-1"></a>N <span class="ot">&lt;-</span> soil_data<span class="sc">$</span>N</span>
+<span id="cb46-5"><a href="statistical-evaluation.html#cb46-5" tabindex="-1"></a></span>
+<span id="cb46-6"><a href="statistical-evaluation.html#cb46-6" tabindex="-1"></a><span class="co"># and we also create a data.frame with those 3 variables (only for easy handling)</span></span>
+<span id="cb46-7"><a href="statistical-evaluation.html#cb46-7" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">cbind</span>(pH, OC, N))</span></code></pre></div>
+<div id="descriptive-statistics" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> Descriptive statistics<a href="statistical-evaluation.html#descriptive-statistics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="statistical-evaluation.html#cb47-1" tabindex="-1"></a><span class="fu">mean</span>(pH)</span></code></pre></div>
+<pre><code>## [1] 6.738237</code></pre>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="statistical-evaluation.html#cb49-1" tabindex="-1"></a><span class="fu">median</span>(pH)</span></code></pre></div>
+<pre><code>## [1] 6.85</code></pre>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="statistical-evaluation.html#cb51-1" tabindex="-1"></a><span class="fu">min</span>(pH)</span></code></pre></div>
+<pre><code>## [1] 3.81</code></pre>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="statistical-evaluation.html#cb53-1" tabindex="-1"></a><span class="fu">max</span>(pH)</span></code></pre></div>
+<pre><code>## [1] 8.14</code></pre>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="statistical-evaluation.html#cb55-1" tabindex="-1"></a><span class="fu">range</span>(pH)</span></code></pre></div>
+<pre><code>## [1] 3.81 8.14</code></pre>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="statistical-evaluation.html#cb57-1" tabindex="-1"></a><span class="fu">sd</span>(pH)</span></code></pre></div>
+<pre><code>## [1] 0.7908862</code></pre>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="statistical-evaluation.html#cb59-1" tabindex="-1"></a><span class="fu">quantile</span>(pH)</span></code></pre></div>
+<pre><code>##     0%    25%    50%    75%   100% 
+## 3.8100 6.1625 6.8500 7.3800 8.1400</code></pre>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="statistical-evaluation.html#cb61-1" tabindex="-1"></a><span class="fu">summary</span>(pH)</span></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   3.810   6.162   6.850   6.738   7.380   8.140</code></pre>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="statistical-evaluation.html#cb63-1" tabindex="-1"></a><span class="co"># For factors, is interesting to describe how many observations belong to each category</span></span>
+<span id="cb63-2"><a href="statistical-evaluation.html#cb63-2" tabindex="-1"></a></span>
+<span id="cb63-3"><a href="statistical-evaluation.html#cb63-3" tabindex="-1"></a>pH_class_count <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">table</span>(soil_data<span class="sc">$</span>pH_class))</span>
+<span id="cb63-4"><a href="statistical-evaluation.html#cb63-4" tabindex="-1"></a></span>
+<span id="cb63-5"><a href="statistical-evaluation.html#cb63-5" tabindex="-1"></a>pH_class_count</span></code></pre></div>
+<pre><code>##       Var1 Freq
+## 1   acidic  140
+## 2 alkaline   67
+## 3  neutral  139</code></pre>
+<p>Some functions as the ‘skewness’ command are not included in base <strong>R</strong>, but implemented via packages. E.g. <code>moments</code></p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="statistical-evaluation.html#cb65-1" tabindex="-1"></a><span class="fu">library</span>(moments)</span>
+<span id="cb65-2"><a href="statistical-evaluation.html#cb65-2" tabindex="-1"></a><span class="fu">skewness</span>(pH)</span></code></pre></div>
+<pre><code>## [1] -0.4164928</code></pre>
+<p>Skewness indicates if our data distribution is symmetric or not:
+<img src="images/Negative_and_positive_skewness_diagrams.svg" /></p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="statistical-evaluation.html#cb67-1" tabindex="-1"></a><span class="fu">kurtosis</span>(pH)</span></code></pre></div>
+<pre><code>## [1] 2.619499</code></pre>
+<p>‘kurtosis’ describe is how long is the tail of our data distribution:</p>
+<p><img src="images/kurtosis.jpg" /></p>
+</div>
+<div id="correlation" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Correlation<a href="statistical-evaluation.html#correlation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Pearson correlation coefficient <code>cor()</code></p>
+<p><span class="math display">\[{r_{xy}=\frac{\sum_{i = 1}^{n}(x_i-\overline{x})(y_{i}-\overline{y})}{\sqrt{\sum_{i = 1}^{n}(x_{i}-\overline{x})^2}{\sqrt{\sum_{i = 1}^{n}(y_{i}-\overline{y})^2}}}}\]</span></p>
+<p>where:</p>
+<ul>
+<li><span class="math inline">\(n\)</span> is sample size</li>
+<li><span class="math inline">\(X_{i}\)</span>, <span class="math inline">\(Y_{i}\)</span> are the individual sample points indexed with <span class="math inline">\(i\)</span></li>
+<li><span class="math inline">\(\overline{x} = \frac{1}{n}\sum_{x = 1}^{n} x_{i}\)</span> (the sample mean);</li>
+</ul>
+<p>and analogously for <span class="math inline">\({\bar {y}}\)</span></p>
+<p>Examples:</p>
+<p><img src="images/Correlation_examples2.svg.png" /></p>
+<p>So now with our data…</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="statistical-evaluation.html#cb69-1" tabindex="-1"></a><span class="fu">cor</span>(OC, N)</span></code></pre></div>
+<pre><code>## [1] 0.9705</code></pre>
+<p><img src="main-book_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
+<p>Attention correlation does not mean direct link between two event be careful with the interpretation. <a href="http://tylervigen.com/spurious-correlations">Spurious correlations</a></p>
+</div>
+<div id="linear-regression-lm" class="section level2 hasAnchor" number="4.3">
+<h2><span class="header-section-number">4.3</span> Linear regression <code>lm()</code><a href="statistical-evaluation.html#linear-regression-lm" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In R, the linear models are written as <code>lm(y ~ x, data)</code></p>
+<p>Example:</p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="statistical-evaluation.html#cb71-1" tabindex="-1"></a>linearModel <span class="ot">&lt;-</span> <span class="fu">lm</span>(OC <span class="sc">~</span> N , <span class="at">data =</span> data)</span>
+<span id="cb71-2"><a href="statistical-evaluation.html#cb71-2" tabindex="-1"></a><span class="fu">summary</span>(linearModel)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = OC ~ N, data = data)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -27.003  -2.030  -0.056   1.587  45.320 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  -5.4002     0.5552  -9.726   &lt;2e-16 ***
+## N            12.5904     0.1686  74.658   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 5.997 on 344 degrees of freedom
+## Multiple R-squared:  0.9419, Adjusted R-squared:  0.9417 
+## F-statistic:  5574 on 1 and 344 DF,  p-value: &lt; 2.2e-16</code></pre>
+<details>
+<summary>
+Some more functions for the curious ones
+</summary>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="statistical-evaluation.html#cb73-1" tabindex="-1"></a><span class="fu">plot</span>(linearModel)</span></code></pre></div>
+<p><img src="main-book_files/figure-html/unnamed-chunk-36-1.png" width="672" /><img src="main-book_files/figure-html/unnamed-chunk-36-2.png" width="672" /><img src="main-book_files/figure-html/unnamed-chunk-36-3.png" width="672" /><img src="main-book_files/figure-html/unnamed-chunk-36-4.png" width="672" /></p>
+<p>When running this command, we obtain a set of 4 plots that are out of the scope of this “introduction”, but:</p>
+<ul>
+<li><strong>Residuals vs Fitted </strong>: The residuals are distributed following a systematic pattern around the value 0, indicating that the <em>linear</em> regression is not the best. The residuals are also more concentrated in the center, while towards the extremes they show less dispersion, which could indicate heterogeneity among the error variances (heteroscedasticity). Some residuals stand out, indicating the possible presence of outliers.</li>
+<li><strong>Normal Q-Q</strong>: It compares a theoretical normal distribution with the residuals of our model. It should show a straight line for normality assumption and should not show systematic pasterns (should be randomly distributed around that straight line).</li>
+<li><strong>Scale-location</strong>: it shows if residuals are spread equally along the ranges of predictors. This is how you can check the assumption of equal variance (homoscedasticity). It’s good if you see a horizontal line with equally (randomly) spread points.</li>
+<li><strong>Residuals vs leverage</strong>: Unlike the other plots, this time the patterns are not relevant. We look for outlying values in the upper or lower right corner. These places are where cases with a large weight in the linear regression can be located. Look for cases outside the dotted lines, which means they have high Cook’s distance values.</li>
+</ul>
+<p>This is just a visual check, not an air-tight proof, so it is somewhat subjective. But it allows us to see at-a-glance if our assumption is plausible, and if not, how the assumption is violated and what data points contribute to the violation.</p>
+Source: <a href="https://data.library.virginia.edu/diagnostic-plots/#:~:text=Scale%2DLocation,equally%20(randomly)%20spread%20points.">Understanding Diagnostic Plots for Linear Regression Analysis</a>
+</details>
+</div>
+<div id="coefficient-of-determination-with-pearson-correlation-coefficient-cor" class="section level2 hasAnchor" number="4.4">
+<h2><span class="header-section-number">4.4</span> Coefficient of determination with Pearson correlation coefficient <code>cor()</code><a href="statistical-evaluation.html#coefficient-of-determination-with-pearson-correlation-coefficient-cor" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><span class="math display">\[R^2≡1-\frac{\sum(y_{i}-\hat{y_{i}})^2}{\sum(y_{i}-\overline{y})^2}\]</span></p>
+<p><span class="math display">\[R^2=r×r\]</span></p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="statistical-evaluation.html#cb74-1" tabindex="-1"></a><span class="fu">cor</span>(OC, linearModel<span class="sc">$</span>fitted.values) <span class="sc">*</span> <span class="fu">cor</span>(OC, linearModel<span class="sc">$</span>fitted.values)</span></code></pre></div>
+<pre><code>## [1] 0.9418703</code></pre>
+</div>
+<div id="root-mean-squared-error-rmse" class="section level2 hasAnchor" number="4.5">
+<h2><span class="header-section-number">4.5</span> root mean squared error (RMSE)<a href="statistical-evaluation.html#root-mean-squared-error-rmse" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><span class="math display">\[RMSE=\sqrt{\frac{1}{n}\sum_{i = 1}^{n}{(\hat{y_{i}}-y_{i})^2}}\]</span></p>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="statistical-evaluation.html#cb76-1" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">/</span> <span class="fu">length</span>(<span class="fu">rbind</span>(linearModel<span class="sc">$</span>residuals)) <span class="sc">*</span> <span class="fu">sum</span>(<span class="fu">rbind</span>(linearModel<span class="sc">$</span>residuals) <span class="sc">^</span> <span class="dv">2</span>))</span></code></pre></div>
+<pre><code>## [1] 5.980082</code></pre>
+</div>
+<div id="function-for-the-root-mean-squared-error-rmse" class="section level2 hasAnchor" number="4.6">
+<h2><span class="header-section-number">4.6</span> Function for the root mean squared error (RMSE)<a href="statistical-evaluation.html#function-for-the-root-mean-squared-error-rmse" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Base R does not include a function for RMSE in base R, but we can create custom functions as follows:</p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="statistical-evaluation.html#cb78-1" tabindex="-1"></a>function_name <span class="ot">&lt;-</span> <span class="cf">function</span>(input_x, input_y, ...) {</span>
+<span id="cb78-2"><a href="statistical-evaluation.html#cb78-2" tabindex="-1"></a>  some_operations</span>
+<span id="cb78-3"><a href="statistical-evaluation.html#cb78-3" tabindex="-1"></a>}</span></code></pre></div>
+<p>Let's create our own RMSE function:</p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="statistical-evaluation.html#cb79-1" tabindex="-1"></a>rmse <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y) {</span>
+<span id="cb79-2"><a href="statistical-evaluation.html#cb79-2" tabindex="-1"></a>  <span class="fu">sqrt</span>(<span class="fu">mean</span>((x <span class="sc">-</span> y) <span class="sc">^</span> <span class="dv">2</span>))</span>
+<span id="cb79-3"><a href="statistical-evaluation.html#cb79-3" tabindex="-1"></a>}</span></code></pre></div>
+<p>Requires input</p>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="statistical-evaluation.html#cb80-1" tabindex="-1"></a><span class="fu">rmse</span>(linearModel<span class="sc">$</span>fitted.values, OC)</span></code></pre></div>
+<pre><code>## [1] 5.980082</code></pre>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="figures-and-graphics-basics.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="spatial-modeling.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null,
+"fuse": {
+"threshold": 0.4
+}
+},
+"toc": {
+"collapse": "subsection"
+},
+"fig_path": "computed-figures/"
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
